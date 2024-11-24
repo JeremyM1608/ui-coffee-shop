@@ -7,11 +7,26 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily:{
+        sans: ['var(--font-rubik)'],
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        primary: "var(--primary)", //brown
+        primaryHover:"#503526",
+        secondary: "#FFBA33", //yellow
+        secondaryHover:"#DC9A18",
+        secondaryActive:"#FFBA33",
+        check: "#2FAB73", //green
+        greyHover: "#9F9F9F",
+        grey: {
+          10: "#4F5665",
+        },
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar'),
+  ],
 };
