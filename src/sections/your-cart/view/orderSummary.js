@@ -7,7 +7,7 @@ export default function OrderSummary() {
   return (
     <div className="flex flex-col lg:w-1/2 md:w-1/2 w-full gap-6" style={{padding:"24px"}}>
         <div className='flex flex-col w-full rounded-lg bg-white' style={{padding:"34px",boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"}}>
-            <div className='flex justify-center items-center text-3xl text-primary font-semibold' style={{ marginBottom:"75px"}}>Order Summary</div>
+            <div className='flex justify-center items-center lg:text-3xl md:text-3xl text-xl text-primary font-semibold' style={{ marginBottom:"75px"}}>Order Summary</div>
             <div className='flex flex-col gap-3' style={{borderBottom:"1px solid #DCDCDC"}} >
                 <div className='flex justify-around items-center' style={{paddingBottom:"10px"}}>
                     <Image src={img1} alt='image' 

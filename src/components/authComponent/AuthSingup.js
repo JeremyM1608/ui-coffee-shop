@@ -8,7 +8,7 @@ export default function AuthSingup() {
     const router = useRouter();
 
     const handleLogin = ()=>{
-      router.replace('/auth/login');
+      router.replace('/login');
     };
   return (
     <div className='flex flex-col justify-center items-center'>

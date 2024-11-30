@@ -19,6 +19,7 @@ module.exports = {
         secondaryHover:"#DC9A18",
         secondaryActive:"#FFBA33",
         check: "#2FAB73", //green
+        blue:"#109CE9",
         greyHover: "#9F9F9F",
         grey: {
           10: "#4F5665",
@@ -26,7 +27,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require('tailwind-scrollbar'),
-  ],
+  plugins: [],
 };

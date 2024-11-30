@@ -19,6 +19,9 @@
     --check: #2FAB73;
   }
 }
+*{
+  box-sizing: border-box;
+}
 
 body {
   color: var(--foreground);
@@ -46,4 +49,21 @@ body {
     transform: scale(2);
     opacity: 0;
   }
+}
+
+*::-webkit-scrollbar {
+  width: 10px !important;
+}
+* {
+  scrollbar-width: thin !important;
+  scrollbar-color: var(--dark-blue) var(--background);
+}
+*::-webkit-scrollbar-track {
+  border-radius: 20px !important;
+  background-color: var(--background);
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--dark-blue) ;
+  border-radius: 20px !important;
+  border: 3px solid var(--background);
 }

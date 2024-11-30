@@ -8,11 +8,11 @@ export default function NavRight() {
     const router = useRouter();
 
     const loginClick = ()=>{
-      router.replace('/auth/login');
+      router.replace('/login');
     };
   
     const signupClick = ()=>{
-      router.replace('/auth/signup');
+      router.replace('/signup');
     };
   return (
     <div className="flex md:gap-6 gap-3">

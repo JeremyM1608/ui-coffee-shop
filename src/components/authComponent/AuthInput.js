@@ -8,10 +8,10 @@ export default function AuthInput() {
     const router = useRouter();
 
     const handleSignup = ()=>{
-      router.replace('/auth/signup');
+      router.replace('/signup');
     };
     const handleForgotPass = () => {
-        router.replace("/auth/forgot-password");
+        router.replace("/forgot-password");
     };
   return (
     <div className='flex flex-col justify-center items-center'>
