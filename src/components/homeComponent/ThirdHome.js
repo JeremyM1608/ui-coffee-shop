@@ -13,7 +13,7 @@ export default function ThirdHome() {
             <p className='font-bold text-2xl flex justify-center items-center m-2'>Here is People’s Favorite</p>
             <p className='font-light text-sm m-2'>Let’s choose and have a bit taste of poeple’s favorite. It might be yours too!</p>
         </div>
-        <div className='flex md:flex-row md:gap-10 flex-col gap-20'>
+        <div className='flex lg:flex-row lg:gap-10 flex-col gap-20'>
             {
                 display.map((v,i)=>{
                     return(

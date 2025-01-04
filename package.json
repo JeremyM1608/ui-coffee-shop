@@ -9,12 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.5.0",
     "apexcharts": "^4.0.0",
+    "axios": "^1.7.9",
+    "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
     "next": "15.0.3",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-apexcharts": "^1.5.0",
     "react-dom": "19.0.0-rc-66855b96-20241106",
-    "react-tailwindcss-datepicker": "^1.7.2"
+    "react-redux": "^9.2.0",
+    "react-tailwindcss-datepicker": "^1.7.2",
+    "redux": "^5.0.1",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@iconify/react": "^5.0.2",

@@ -50,6 +50,31 @@ body {
     opacity: 0;
   }
 }
+@keyframes fadein{
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+.spinner {
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #3498db;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animated-in{
+  transition: fadein ease-in-out .5s;
+}
 
 *::-webkit-scrollbar {
   width: 10px !important;
@@ -67,3 +92,18 @@ body {
   border-radius: 20px !important;
   border: 3px solid var(--background);
 }
+.loader {
+  width: fit-content;
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 30px;
+  clip-path: inset(0 3ch 0 0);
+  animation: l4 1s steps(4) infinite;
+  display: flex;
+  /* height: 100vh;
+  width: 100vw; */
+}
+.loader:before {
+  content:"Loading..."
+}
+@keyframes l4 {to{clip-path: inset(0 -1ch 0 0)}}

@@ -18,6 +18,7 @@ module.exports = {
         secondary: "#FFBA33", //yellow
         secondaryHover:"#DC9A18",
         secondaryActive:"#FFBA33",
+        stone:"#DCDCDC",
         check: "#2FAB73", //green
         blue:"#109CE9",
         greyHover: "#9F9F9F",

@@ -10,7 +10,7 @@ export default function CheckOutFlow() {
   return (
     <div className='flex flex-row w-full h-1/5 items-center justify-center gap-3'>
         <div className='flex flex-col items-center justify-center'>
-            <div name="order" className='flex justify-center items-center bg-white shadow-lg' 
+            <div id='order' name="order" className='flex justify-center items-center bg-white shadow-lg' 
             style={{width:isBreakPoint?"40px":"50px",height:isBreakPoint?"40px":"50px", borderRadius:"100%"}}
             >
                 {isChecked === true ?
@@ -23,7 +23,7 @@ export default function CheckOutFlow() {
         </div>
         <div style={{border:"1px solid white",width:"100px", height:"1px"}}></div>
         <div className='flex flex-col items-center justify-center'>
-            <div name="order" className='flex justify-center items-center bg-white shadow-lg'
+            <div id='checkout' name="checkout" className='flex justify-center items-center bg-white shadow-lg'
             style={{width:isBreakPoint?"40px":"50px",height:isBreakPoint?"40px":"50px", borderRadius:"100%"}}
             >
                 {isChecked === true ?
@@ -32,11 +32,11 @@ export default function CheckOutFlow() {
                 <div style={{width:isBreakPoint?"20px":"24px",height:isBreakPoint?"20px":"24px", background:"var(--primary)", borderRadius:"100%"}}/>
                 }
             </div>
-            <label htmlFor="order" className='lg:text-lg md:text-lg text-sm font-light text-white'>Check out</label>
+            <label htmlFor="checkout" className='lg:text-lg md:text-lg text-sm font-light text-white'>Check out</label>
         </div>
         <div style={{border:"1px solid white",width:"100px", height:"1px"}}></div>
         <div className='flex flex-col items-center justify-center'>
-            <div name="order" className='flex justify-center items-center bg-white shadow-lg' 
+            <div id='payment' name="payment" className='flex justify-center items-center bg-white shadow-lg' 
             style={{width:isBreakPoint?"40px":"50px",height:isBreakPoint?"40px":"50px", borderRadius:"100%"}}
             >
                 {isChecked !== true ?
@@ -45,7 +45,7 @@ export default function CheckOutFlow() {
                 <div style={{width:isBreakPoint?"20px":"24px", height:isBreakPoint?"20px":"24px", background:"var(--primary)", borderRadius:"100%"}}/>
                 }
             </div>
-            <label htmlFor="order" className='lg:text-lg md:text-lg text-sm font-light text-white'>Payment</label>
+            <label htmlFor="payment" className='lg:text-lg md:text-lg text-sm font-light text-white'>Payment</label>
         </div>
         </div>
   )

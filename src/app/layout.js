@@ -1,8 +1,8 @@
 import localFont from "next/font/local";
 import "./globals.css";
-import Footer from "@/components/Footer";
-import { Rubik, Roboto_Mono } from 'next/font/google'
-import Nav from "@/components/nav/Nav";
+import { Rubik } from 'next/font/google'
+import StoreProvider from "./StoreProvider";
+
 const rubik = Rubik({
   variable: "--font-rubik",
 });
@@ -21,7 +21,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={rubik.className}>
       <body>
-        {children}
+        <StoreProvider>
+          {children}
+        </StoreProvider>
       </body>
     </html>
   );

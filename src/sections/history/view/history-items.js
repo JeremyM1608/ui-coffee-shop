@@ -2,8 +2,13 @@
 
 import Image from 'next/image'
 import img from '@/../public/images/customerImage/veggie.png'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CustDialog from '@/components/CustDialog'
+import { useDispatch, useSelector } from 'react-redux'
+import { getTransaction, getUserTransaction } from '@/redux/slices/transactionSlice'
+import { Icon } from '@iconify/react'
+import useMediaQuery from '@/utils/use-media-query'
+import Modal from '@/components/modal/Modal'
 
 const historyData = [
     {
@@ -122,9 +127,17 @@ const historyData = [
 ]
 
 export default function HistoryItems() {
+    const isBreakPoint = useMediaQuery(768);
     const [history, setHistory] = useState(historyData);  // State untuk data dengan status checkbox
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [ clickedId, setClickedId ]= useState(null);
+    const dispatch = useDispatch();;
+    const [openModal, setOpenModal] = useState(false);
+    const { userTransaction } = useSelector(state => state.transaction);
 
+    useEffect(()=>{
+        dispatch(getUserTransaction());
+    },[dispatch])
     // Fungsi untuk menangani perubahan checkbox
     const handleCheckboxChange = (index) => {
         const updatedHistory = [...history];
@@ -163,35 +176,71 @@ export default function HistoryItems() {
                 </div>
                 <div className='flex flex-row gap-3 items-center ' style={{ flexWrap: "wrap" }}>
                     {
-                        history.map((v, i) => (
-                            <div className='flex flex-row rounded-lg bg-white gap-2' key={i} style={{ padding: "16px", maxWidth: "394px", maxHeight: "150px", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
-                                <Image src={v.imgProduct} alt='image'
-                                    style={{ width: '75px', height: '75px', objectFit: "contain", borderRadius: "100%" }}
-                                />
-                                <div className='flex flex-col gap-2'>
-                                    <div className='font-medium text-base'>{v.namaProduct}</div>
-                                    <div className='flex justify-between items-center'>
-                                        <div className='flex flex-col text-sm font-normal text-primary'>
-                                            <p>{v.price}</p>
-                                            <p>{v.status}</p>
+                        userTransaction.map((v, i) => {
+                            let dateString = v.time_reservation;
+                            let totalQty = v.transaction_details.reduce((acc, detail)=>{
+                                return acc + detail.qty;
+                            },0);
+                            let totalPrice = v.transaction_details.reduce((acc, detail)=>{
+                                let price = detail.product_price * detail.qty
+                                return acc + price
+                            },0)
+                            let tax = 12;
+                            let date = new Date(dateString.replace(" ", "T"));
+                            const months = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+                            
+                            return(<div className='flex flex-row rounded-lg bg-white gap-2' key={i} style={{ padding: "16px", minWidth:"100px",maxWidth: "300px", minHeight:"100px",maxHeight: "300px", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
+                                <div className='flex flex-col gap-2 justify-center items-center' style={{minWidth:isBreakPoint?"60px":"80px", padding:"10px", borderRight:"1px solid #000"}}>
+                                    <p className='font-normal lg:text-base text-sm'>{months[date.getMonth()]}</p>
+                                    <p className='lg:text-3xl text-xl font-bold'>{date.getDate()}</p>
+                                    <p className='font-normal lg:text-base text-sm'>{date.getFullYear()}</p>
+                                    <p className='text-xs font-medium'>{date.getHours().toString().padStart(2, '0')}:{date.getMinutes().toString().padStart(2, '0')}</p>
+                                </div>
+                                <div className='flex flex-col gap-3'>
+                                    <div className='flex items-center justify-center font-medium lg:text-base text-sm' style={{borderBottom:"1px dashed #000"}}>
+                                        INV-{1000+v.id_transaction}
+                                    </div>
+                                    <div className='flex items-center gap-4'>
+                                        <div className='flex flex-col'>
+                                            <div className='flex gap-2 lg:text-sm text-xs font-normal text-primary'>
+                                                <p>Items:</p>
+                                                <p>{totalQty}</p> 
+                                            </div>
+                                            <div className='flex gap-2 lg:text-sm text-xs font-normal text-primary'>
+                                                <p>Tax:</p>
+                                                <p>{tax}%</p> 
+                                            </div>
+                                            <div className='flex flex-col text-[#000]'>
+                                                <p className='font-semibold lg:text-lg text-base'>Total</p>
+                                                <p className='font-normal lg:text-sm text-xs'>Rp.{parseInt(totalPrice + ((tax/100)*totalPrice)).toLocaleString('id-ID')}</p>
+                                            </div>
                                         </div>
-                                        <div className="flex justify-end items-center h-5">
-                                            <input
-                                                id={`item-check-${i}`}
-                                                type="checkbox"
-                                                checked={v.checked}
-                                                onChange={() => handleCheckboxChange(i)}  // Mengatur perubahan status checkbox
-                                                className="w-4 h-4 border border-primary rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                                            />
+                                        <div className="flex relative" style={{minWidth:isBreakPoint?"50px":"87px", height:"100%"}}>
+                                            <div className='flex flex-col text-xs'>
+                                                <p className='font-bold'>Status:</p>
+                                                <p style={{fontSize:"10px"}}>{v.status}</p>
+                                            </div>
+                                            <button className='flex flex-row items-center text-xs  absolute justify-evenly hover:text-[#223cb3]' style={{bottom:"0px", right: "0px", color:"#304ed8"}}
+                                                onClick={()=>{setClickedId(v.id_transaction), setOpenModal(true)}}
+                                            >
+                                                Show Detail
+                                                <Icon icon={"lsicon:double-arrow-right-outline"} style={{width:"16px", height:"16px"}}/>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))
+                            </div>)
+                        })
                     }
                 </div>
             </div>
-
+            {
+                openModal && (
+                    <Modal userTransaction={userTransaction} transactionDetailId={clickedId}
+                        closeModal={()=> setOpenModal(false)}
+                    />
+                )
+            }
             {deleteDialogOpen && (
                 <CustDialog
                     dialog={"Are you sure you want to delete the selected items?"}

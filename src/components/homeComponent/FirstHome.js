@@ -5,7 +5,8 @@ import img from '@/../public/images/nathan-dumlao-71u2fOofI-U-unsplash 2.png'
 export default function FirstHome() {
   return (
     <div className='relative' style={{ width: "100%", height:'fit-content'}}>
-        <Image src={img} alt='image'  
+        <Image src={img} alt='image'
+          priority
          style={{ width: '100%', height:'100%', objectFit: "cover" }}
         />
         <div className='absolute md:w-96 md:top-20 md:left-20 w-60 top-10 left-10 '>

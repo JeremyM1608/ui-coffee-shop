@@ -4,7 +4,9 @@ import { PromoData } from "@/_mock";
 import Button from "@/components/Button";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import useMediaQuery from '@/utils/use-media-query';
 import React from "react";
+import { useSelector } from "react-redux";
 
 const termsAndCondition = [
     "1. You can only apply 1 coupon per day",
@@ -14,9 +16,12 @@ const termsAndCondition = [
 
 
 export default function ProductsPromo() {
+  const role = useSelector((state) => state?.login?.user?.role);
+  const isBreakPoint = useMediaQuery(760);
+  
   const router = useRouter();
   return (
-    <div className="flex flex-col p-10 gap-10 md:w-1/6 lg:w-1/6 md:h-full lg:h-full relative lg:overflow-hidden md:overflow-hidden items-center" style={{ borderRight:"1px solid #DCDCDC"}}>
+    <div className="flex flex-col p-10 gap-10 md:w-1/6 lg:w-1/6 md:h-full lg:h-full relative lg:overflow-hidden md:overflow-hidden items-center" style={{minHeight:isBreakPoint?"":"1000px" , borderRight:"1px solid #DCDCDC"}}>
       <div className="flex flex-col gap-5 w-full justify-center items-center">
         <p className="font-semibold text-2xl">Promo Today</p>
         <p className="font-light text-xs text-center">Coupons will be updated every weeks. Check them out!</p>
@@ -70,14 +75,21 @@ export default function ProductsPromo() {
             </div>)
           })
         }
-        <div className="flex flex-col gap-4 mt-10 items-start">
-          <button className="font-medium text-base text-primary hover:underline">
-            Edit promo
-          </button>
-          <button className="font-medium text-base text-primary hover:underline" onClick={()=>router.push('/add-promo')}>
-            Add new promo
-          </button>
-        </div>      
+        {
+          role === "admin"?
+          (
+            <div className="flex flex-col gap-4 mt-10 items-start">
+            <button className="font-medium text-base text-primary hover:underline">
+              Edit promo
+            </button>
+            <button className="font-medium text-base text-primary hover:underline" onClick={()=>router.push('/add-promo')}>
+              Add new promo
+            </button>
+          </div>     
+          )
+          :""
+        }
+        
       </div>
     </div>
   );

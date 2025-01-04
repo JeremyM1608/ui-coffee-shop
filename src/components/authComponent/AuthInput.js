@@ -1,11 +1,44 @@
 "use client"
 
+import { getDetailUser, login } from '@/api/auth';
+import { loginSuccess } from '@/redux/slices/slice';
 import { Icon } from '@iconify/react'
 import { useRouter } from 'next/navigation';
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function AuthInput() {
+    const dispatch = useDispatch();
+    const [ loginForm, setLoginForm ] = useState({
+        email:"",
+        password:"",
+    })
     const router = useRouter();
+    const [isError, setIsError] = useState('');
+
+    const handleChange = (e) => {
+        setLoginForm({
+            ...loginForm,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleLogin = async(e) =>{
+        e.preventDefault();
+        try{
+            const res = await login(loginForm); 
+            const profile = await getDetailUser(res.accessToken);
+            setIsError('');
+            const token = res.accessToken;
+            const user = profile.data[0];
+            localStorage.setItem('token', token)
+            router.replace('/products');
+            dispatch(loginSuccess({user}));
+        }catch(err){
+            console.log(err);
+            setIsError(err?.response?.data?.msg || 'Unauthorized');
+        }
+    }
 
     const handleSignup = ()=>{
       router.replace('/signup');
@@ -15,17 +48,19 @@ export default function AuthInput() {
     };
   return (
     <div className='flex flex-col justify-center items-center'>
-        <div className='flex flex-col justify-center items-center gap-6 w-full mt-20 p-10'>
+        <form onSubmit={handleLogin}   className='flex flex-col justify-center items-center gap-6 w-full mt-20 p-10'>
             <div className='flex flex-col w-5/6 gap-1'>
                 <label htmlFor="email" className='font-medium text-slate-600 text-sm'>Email Address:</label>
-                <input type="email" name="email" placeholder="Enter your email address" 
+                <input type="email" id='email' name="email" placeholder="Enter your email address" 
                 className='border border-slate-400 rounded-lg p-3 text-sm w-full focus:ring-1'
+                value={loginForm.email} onChange={handleChange}
                 />
             </div>
             <div className='flex flex-col w-5/6 gap-1'>
                 <label htmlFor="password" className='font-medium text-slate-600 text-sm'>Password:</label>
-                <input type="password" name="password" placeholder="Enter your password"
+                <input type="password" id='password' name="password" placeholder="Enter your password"
                 className='border border-slate-400 rounded-lg p-3 text-sm w-full focus:ring-1'
+                value={loginForm.password} onChange={handleChange}
                 />
                 <p className='text-sm font-semibold text-primary hover:underline cursor-pointer mt-4'
                    onClick={handleForgotPass}
@@ -33,13 +68,19 @@ export default function AuthInput() {
                     Forgot Password?
                 </p>
             </div>
+            {isError && (
+                    <div className='flex p-3 items-center bg-red-500 w-5/6 rounded-md shadow-slate-200 shadow-md'>
+                        <p className='text-base font-medium text-white'>{isError}</p>
+                    </div>
+                )}
             <div className='flex flex-col w-5/6 gap-4'>
-                <button         
+                <button
+                    type='submit'   
                     className="w-full h-8 md:h-11 bg-secondary rounded-xl font-medium md:text-sm hover:bg-secondaryHover active:bg-secondaryActive text-primary shadow-slate-200 shadow-md"
                 >
                     Login
                 </button>
-                <button         
+                <button 
                     className="flex justify-center items-center gap-4 w-full h-8 md:h-11 bg-white rounded-xl font-medium md:text-sm hover:bg-slate-300 shadow-slate-200 shadow-md"
                     // style={{ boxShadow: " rgba(0, 0, 0, 0.2) 0px 18px 50px -10px" }}
                 >
@@ -63,7 +104,7 @@ export default function AuthInput() {
                     Sign Up Here
                 </button>
             </div>
-        </div>
+        </form>
     </div>
   )
 }

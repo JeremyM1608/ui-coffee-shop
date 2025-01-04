@@ -1,11 +1,18 @@
+"use client"
+
 import { Icon } from "@iconify/react";
 import Image from "next/image";
-import image from "@/../public/images/customerImage/userpp.png";
-import React from "react";
-
-const pp = image;
+import img from "@/../public/images/defaultUser.jpg";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import DropDown from "../DropDown/DropDown";
+import { useRouter } from "next/navigation";
 
 export default function NavUser() {
+  const { user } = useSelector((state) => state.login);
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const router = useRouter();
+
   return (
     <div className="flex flex-row md:gap-6 gap-3 ">
       <label className="relative lg:!block hidden ">
@@ -20,17 +27,25 @@ export default function NavUser() {
           name="search"
         />
       </label>
-      <div className="text-center text-2xl text-slate-400 mt-2 cursor-pointer relative">
+      <div className="text-center text-2xl text-slate-400 mt-2 cursor-pointer relative" onClick={()=>router.replace("/chat")}> 
         <div className="rounded-full absolute bg-primary text-xs text-white font-medium animated-ping" style={{width:"17px",height:"17px", top:"-7px", left:"-7px"}}/>
         <div className="rounded-full absolute bg-primary text-xs text-white font-medium" style={{width:"17px",height:"17px", top:"-7px", left:"-7px"}}>
             2
         </div>
         <Icon icon="line-md:chat"/>
       </div>
-      <Image 
-        src={pp} alt='image'  
-        style={{ width: '40px', height:'40px', objectFit: "contain", borderRadius:"100%", cursor: "pointer"}}
-        />
+      <div className="relative" >
+        <Image
+          src={!user.url_photo ? img : `${process.env.NEXT_PUBLIC_BACKEND_URL}${user.url_photo}`} alt='image'
+          width={40}
+          height={40}
+          style={{ width: '40px', height:'40px', objectFit: "contain", borderRadius:"100%", cursor: "pointer"}}
+          onClick={()=> setOpenDropdown((prev)=> !prev)}
+          />
+          {
+            openDropdown && <DropDown setOpenDropDown={setOpenDropdown}/>
+          }
+      </div>
     </div>
   );
 }
